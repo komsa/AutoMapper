@@ -12,7 +12,7 @@
     <PackageProjectUrl>https://automapper.io</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <MinVerVersion>14.0.1</MinVerVersion>
+    <MinVerVersion>14.0.2</MinVerVersion>
     <MinVerDefaultPreReleaseIdentifiers>0</MinVerDefaultPreReleaseIdentifiers>
     <MinVerTagPrefix>v</MinVerTagPrefix>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

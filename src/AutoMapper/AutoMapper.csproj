@@ -9,7 +9,7 @@
     <AssemblyName>AutoMapper</AssemblyName>
     <PackageId>Komsa.AutoMapper</PackageId>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageProjectUrl>https://automapper.io</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/Komsa/AutoMapper</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <MinVerVersion>14.0.2</MinVerVersion>

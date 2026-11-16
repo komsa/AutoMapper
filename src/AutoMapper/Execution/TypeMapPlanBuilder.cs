@@ -211,7 +211,14 @@ public ref struct TypeMapPlanBuilder(IGlobalConfiguration configuration, TypeMap
             {
                 continue;
             }
-            actions.Add(TryPathMap(pathMap));
+            try
+            {
+                actions.Add(TryPathMap(pathMap));
+            }
+            catch (Exception e)
+            {
+                throw new AutoMapperMappingException("Error building path mapping strategy.", e, pathMap);
+            }
         }
     }
     private void AddBeforeMap(List<Expression> actions)
@@ -239,12 +246,20 @@ public ref struct TypeMapPlanBuilder(IGlobalConfiguration configuration, TypeMap
             {
                 continue;
             }
-            var property = TryMemberMap(propertyMap, CreatePropertyMapFunc(propertyMap, _destination, propertyMap.DestinationMember));
-            if (_typeMap.ConstructorParameterMatches(propertyMap.DestinationName))
+            try
             {
-                property = _initialDestination.IfNullElse(_configuration.Default(property.Type), property);
+                var property = TryMemberMap(propertyMap,
+                    CreatePropertyMapFunc(propertyMap, _destination, propertyMap.DestinationMember));
+                if (_typeMap.ConstructorParameterMatches(propertyMap.DestinationName))
+                {
+                    property = _initialDestination.IfNullElse(_configuration.Default(property.Type), property);
+                }
+                actions.Add(property);
             }
-            actions.Add(property);
+            catch (Exception e)
+            {
+                throw new AutoMapperMappingException("Error building member mapping strategy.", e, propertyMap);
+            }
         }
     }
     private Expression TryPathMap(PathMap pathMap)
@@ -301,9 +316,16 @@ public ref struct TypeMapPlanBuilder(IGlobalConfiguration configuration, TypeMap
         List<Expression> body = [];
         foreach (var parameter in constructorMap.CtorParams)
         {
-            var variable = Variable(parameter.DestinationType, parameter.DestinationName);
-            variables.Add(variable);
-            body.Add(Assign(variable, CreateConstructorParameterExpression(parameter)));
+            try
+            {
+                var variable = Variable(parameter.DestinationType, parameter.DestinationName);
+                variables.Add(variable);
+                body.Add(Assign(variable, CreateConstructorParameterExpression(parameter)));
+            }
+            catch (Exception e)
+            {
+                throw new AutoMapperMappingException("Error building constructor parameter mapping strategy.", e, parameter);
+            }
         }
         body.Add(CheckReferencesCache(New(constructorMap.Ctor, variables)));
         return Block(variables, body);

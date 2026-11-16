@@ -250,7 +250,7 @@ public class ForPathWithNullExpressionShouldFail
     [Fact]
     public void Should_throw_exception()
     {
-        Assert.Throws<NullReferenceException>(() =>
+        Assert.Throws<AutoMapperMappingException>(() =>
         {
             var cfg = new MapperConfiguration(config =>
             {
